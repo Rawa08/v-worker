@@ -7,3 +7,117 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id                    String                 @id @default(uuid())
+  firebaseUid           String                 @unique
+  firstName             String?
+  lastName              String?
+  email                 String                 @unique
+  phone                 String?
+  country               String?
+  isAdmin               Boolean                @default(false)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  venues                Venue[] @relation("AccountManager")
+  venuePlaylistManagers VenuePlaylistManager[] @relation("VenueManager")
+  playlists             Playlist[]
+  uploadedImages        Image[]
+}
+
+model Venue {
+  id                    String                 @id @default(uuid())
+  name                  String
+  phone                 String?
+  postalAddress         String?
+  postalCode            Int?
+  city                  String
+  country               String
+  startDate             DateTime
+  contactPersonId       String
+  contactPerson         User                   @relation("AccountManager",fields: [contactPersonId], references: [id])
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  venuePlaylistManagers VenuePlaylistManager[] @relation("VenueManager")
+  devices               Device[]
+  playlists             Playlist[]
+}
+
+model VenuePlaylistManager {
+  userId  String
+  venueId String
+  user    User   @relation("VenueManager",fields: [userId], references: [id])
+  venue   Venue  @relation("VenueManager",fields: [venueId], references: [id])
+
+  @@id([userId, venueId])
+}
+
+enum DeviceStatus {
+  REGISTERED
+  ACTIVE
+  DECOMMISSIONED
+}
+
+model Device {
+  id                     String           @id @default(uuid())
+  androidId              String
+  osVersion              String?
+  venueId                String
+  venue                  Venue            @relation(fields: [venueId], references: [id])
+  imageDisplayDurationMs Int?
+  playlistDurationMs     Int?
+  syncIntervalMinutes    Int?
+  activatedAt            DateTime?
+  status                 DeviceStatus     @default(REGISTERED)
+  devicePlaylists        DevicePlaylist[]
+}
+
+model Playlist {
+  id              String           @id @default(uuid())
+  category        Category         @default(MENU)
+  isAdminOnly     Boolean          @default(false)
+  createdByUserId String
+  venueId         String
+  createdBy       User             @relation(fields: [createdByUserId], references: [id])
+  venue           Venue            @relation(fields: [venueId], references: [id])
+  playlistImages  PlaylistImage[]
+  devicePlaylists DevicePlaylist[]
+}
+
+enum Category {
+  SPORTS
+  EVENTS
+  SPECIALS
+  MENU
+  ADMIN_ONLY
+}
+
+model DevicePlaylist {
+  deviceId   String
+  playlistId String
+
+  device   Device   @relation(fields: [deviceId], references: [id])
+  playlist Playlist @relation(fields: [playlistId], references: [id])
+
+  @@id([deviceId, playlistId])
+}
+
+model Image {
+  id             String          @id @default(uuid())
+  url            String
+  isGif          Boolean         @default(false)
+  order          Int             @default(0)
+  uploadedById   String
+  uploadedBy     User            @relation(fields: [uploadedById], references: [id])
+  playlistImages PlaylistImage[]
+}
+
+model PlaylistImage {
+  playlistId String
+  imageId    String
+
+  playlist Playlist @relation(fields: [playlistId], references: [id])
+  image    Image    @relation(fields: [imageId], references: [id])
+
+  @@id([playlistId, imageId])
+}
