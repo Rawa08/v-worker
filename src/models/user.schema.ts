@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const createUserSchema = z.object({
-    firebaseUid: z.string().uuid(),
+    firebaseUid: z.string().min(1, "firebaseUid is required"),
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     email: z.string().email(),
