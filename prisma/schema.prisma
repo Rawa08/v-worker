@@ -33,9 +33,9 @@ model Venue {
   postalCode            Int?
   city                  String
   country               String
-  startDate             DateTime
-  contactPersonId       String
-  contactPerson         User                   @relation("AccountManager",fields: [contactPersonId], references: [id])
+  startDate             DateTime?
+  contactPersonId       String?
+  contactPerson         User?                   @relation("AccountManager",fields: [contactPersonId], references: [id])
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   venuePlaylistManagers VenuePlaylistManager[] @relation("VenueManager")
