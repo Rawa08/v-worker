@@ -12,4 +12,48 @@ const updateVenue = (id: string, data: UpdateVenueInput) =>
 
 const deleteVenue = (id: string) => prisma.venue.delete({ where: { id } });
 
-export { getAllVenues, getVenueById, createVenue, updateVenue, deleteVenue };
+const getAllVenuesByManagerUid = (managerUid: string) => (prisma.venue.findMany({
+  where: {
+    venuePlaylistManagers: {
+      some: {
+        user: {
+          firebaseUid: managerUid 
+        }
+      }
+    }
+  },
+  select: {
+    id: true,
+    name: true,
+    city: true,
+    postalAddress: true,
+    phone: true,
+    venuePlaylistManagers: {
+      select: {
+        user: {
+          select: { email: true }
+        }
+      }
+    },
+    _count: {
+      select: { devices: true }
+    },
+    playlists: {
+      select: {
+        category: true,
+        playlistImages: {
+          select: {
+            image: {
+              select: { url: true }
+            }
+          }
+        }
+      }
+    }
+  },
+  orderBy: { name: 'asc' }
+}));
+
+export type VenueForManager = Awaited<ReturnType<typeof getAllVenuesByManagerUid>>;
+
+export { getAllVenues, getVenueById, createVenue, updateVenue, deleteVenue, getAllVenuesByManagerUid };
