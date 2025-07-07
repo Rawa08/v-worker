@@ -37,3 +37,16 @@ export const verifyFirebaseToken = async (
         return res.status(401).json({ message: 'Unauthorized' })
     }
 };
+
+export const requireAdmin = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user } = req as AuthenticatedRequest;
+
+  if (!user.admin) {
+    return res.status(403).json({ message: 'Access denied: admin only' });
+  }
+  next();
+};
