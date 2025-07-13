@@ -1,9 +1,17 @@
-import { Category } from '@/generated/prisma';
+import type { Category } from '@/generated/prisma';
 import type { VenueForManager } from '@/services/repos/venue.service'
 
 export interface ParsedPlaylist {
   category: Category;
   images: string[];
+}
+
+export type SimpleUser = {
+  user: {
+    email: string;
+    id: string;
+  }
+
 }
 
 export interface ParsedVenue {
@@ -12,10 +20,11 @@ export interface ParsedVenue {
   city: string;
   postalAddress: string | null;
   phone: string | null;
-  managers: string[];
+  venuePlaylistManagers: SimpleUser[];
   deviceCount: number;
   playlists: ParsedPlaylist[];
 }
+
 
 export const parseVenuesData = (
   venuesData: VenueForManager
@@ -26,7 +35,7 @@ export const parseVenuesData = (
     city: venue.city,
     postalAddress: venue.postalAddress ?? null,
     phone: venue.phone ?? null,
-    managers: venue.venuePlaylistManagers.map((m) => m.user.email),
+    venuePlaylistManagers: venue.venuePlaylistManagers,
     deviceCount: venue._count.devices,
     playlists: venue.playlists.map((pl) => ({
       category: pl.category,
