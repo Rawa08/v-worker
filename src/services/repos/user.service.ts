@@ -1,7 +1,17 @@
 import { prisma } from '@/services/prismaService';
+import type { User } from '@/generated/prisma'
 import type { CreateUserInput, UpdateUserInput } from '@/models/user.schema';
 
-const getAllUsers = () => prisma.user.findMany();
+
+type GetAllUsersOptions = { withAdmin?: boolean };
+
+const getAllUsers = async (
+  { withAdmin = false }: GetAllUsersOptions
+): Promise<User[]> => {
+  return prisma.user.findMany({
+    where: withAdmin ? {} : { isAdmin: false },
+  });
+};
 
 const getUserById = (id: string) => prisma.user.findUnique({ where: { id } });
 

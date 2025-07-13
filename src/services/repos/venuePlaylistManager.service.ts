@@ -1,8 +1,10 @@
 import { prisma } from '@/services/prismaService';
 import type { AssignVenueManagerInput } from '@/models/venuePlaylistManager.schema';
 
-const assignVenueManager = (data: AssignVenueManagerInput) =>
-  prisma.venuePlaylistManager.create({ data });
+const assignVenueManager = async (data: AssignVenueManagerInput) => {
+  const managerData = await prisma.venuePlaylistManager.create({ data });
+  return managerData;
+}
 
 const removeVenueManager = (data: AssignVenueManagerInput) =>
   prisma.venuePlaylistManager.delete({ where: { userId_venueId: data } });
