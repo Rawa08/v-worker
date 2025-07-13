@@ -60,7 +60,7 @@ const getVenueById = async (id: string) => (await prisma.venue.findUnique(
         playlistImages: {
           select: {
             image: {
-              select: { url: true }
+              select: { url: true, id: true }
             }
           }
         }
