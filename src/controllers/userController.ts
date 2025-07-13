@@ -1,9 +1,20 @@
-import { Prisma } from '@/generated/prisma';
 import { Request, Response } from 'express';
+import { getAllUsers, createUser } from "@/services/repos/user.service";
+import { Prisma } from '@/generated/prisma';
 import { createUserSchema } from '@/models/user.schema';
-import { createUser } from '@/services/repos/user.service';
 
-export const registerUser = async (req: Request, res: Response) => {
+const getAllVenueUsers = async (_Req: Request, res: Response) => {
+
+    try {
+        const users = await getAllUsers({withAdmin: false});
+        return res.status(200).json(users);
+    } catch (err: unknown) {
+        console.error('Error creating venue:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+const registerUser = async (req: Request, res: Response) => {
 
   const result = createUserSchema.safeParse({ ...req.body, phone: req.body.phoneNumber });
 
@@ -48,3 +59,5 @@ export const registerUser = async (req: Request, res: Response) => {
     return res.status(500).json({ error: 'An unexpected error occurred' });
   }
 };
+
+export { getAllVenueUsers, registerUser };
