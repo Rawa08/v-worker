@@ -1,10 +1,14 @@
 import { Router } from 'express';
-import { getVenuesByManager } from '@/controllers/userVenueController';
+import { getVenueByIdController, getVenuesByManager } from '@/controllers/venueController';
 
 const venueRoutes = Router();
 
 venueRoutes.get(
   '/:userId/venues', getVenuesByManager
+);
+
+venueRoutes.get(
+  '/venue/:venueId', getVenueByIdController
 );
 
 export default venueRoutes;
