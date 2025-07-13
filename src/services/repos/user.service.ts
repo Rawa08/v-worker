@@ -15,7 +15,10 @@ const getAllUsers = async (
 
 const getUserById = (id: string) => prisma.user.findUnique({ where: { id } });
 
-const getUserByFuid = (firebaseUid: string) => prisma.user.findUnique({ where: { firebaseUid } });
+const getUserByFuid = async (firebaseUid: string) => {
+  const user = await prisma.user.findUnique({ where: { firebaseUid } });
+  return user;
+};
 
 const createUser = (data: CreateUserInput) => prisma.user.create({ data });
 
