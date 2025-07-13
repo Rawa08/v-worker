@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createVenueSchema } from '@/models/venue.schema';
+import { createVenueSchema } from '@/models/venue.input.schema';
 import { createVenue, getAllVenues, getAllVenuesByManagerUid } from '@/services/repos/venue.service';
 import { getVenueById } from '@/services/repos/venue.service';
 import { assignVenueManagerSchema } from '@/models/venuePlaylistManager.schema';
