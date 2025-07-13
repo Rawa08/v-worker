@@ -9,8 +9,8 @@ const createVenueSchema = z.object({
   country: z.string(),
   startDate: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Invalid date format",
-  }),
-  contactPersonId: z.string().uuid(),
+  }).optional().nullable(),
+  contactPersonId: z.string().uuid().optional().nullable(),
 });
 
 const updateVenueSchema = z.object({
