@@ -37,7 +37,8 @@
       "@/middleware/*": ["src/middleware/*"],
       "@/routes/*": ["src/routes/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/controllers/*": ["src/controllers/*"]
+      "@/controllers/*": ["src/controllers/*"],
+      "@/generated/*": ["src/generated/*"],
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
