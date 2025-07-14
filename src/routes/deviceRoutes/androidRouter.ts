@@ -1,11 +1,8 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { registerDevice } from '@/controllers/deviceControllers/deviceRegisterController';
 
 const androidRouter = Router();
 
-androidRouter.get('/venues', (req: Request, res: Response) => {
-  console.log(`[${new Date().toISOString()}] GET /api/android/venues called`);
-
-  res.sendStatus(204);
-});
+androidRouter.post('/register-device', registerDevice);
 
 export default androidRouter;
