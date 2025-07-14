@@ -19,7 +19,7 @@ model User {
   isAdmin               Boolean                @default(false)
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
-  venues                Venue[] @relation("AccountManager")
+  venues                Venue[]                @relation("AccountManager")
   venuePlaylistManagers VenuePlaylistManager[] @relation("VenueManager")
   playlists             Playlist[]
   uploadedImages        Image[]
@@ -35,7 +35,7 @@ model Venue {
   country               String
   startDate             DateTime?
   contactPersonId       String?
-  contactPerson         User?                   @relation("AccountManager",fields: [contactPersonId], references: [id])
+  contactPerson         User?                  @relation("AccountManager", fields: [contactPersonId], references: [id])
   createdAt             DateTime               @default(now())
   updatedAt             DateTime               @updatedAt
   venuePlaylistManagers VenuePlaylistManager[] @relation("VenueManager")
@@ -46,8 +46,8 @@ model Venue {
 model VenuePlaylistManager {
   userId  String
   venueId String
-  user    User   @relation("VenueManager",fields: [userId], references: [id])
-  venue   Venue  @relation("VenueManager",fields: [venueId], references: [id])
+  user    User   @relation("VenueManager", fields: [userId], references: [id])
+  venue   Venue  @relation("VenueManager", fields: [venueId], references: [id])
 
   @@id([userId, venueId])
 }
@@ -60,10 +60,10 @@ enum DeviceStatus {
 
 model Device {
   id                     String           @id @default(uuid())
-  androidId              String
+  androidId              String?          @unique
   osVersion              String?
-  venueId                String
-  venue                  Venue            @relation(fields: [venueId], references: [id])
+  venueId                String?
+  venue                  Venue?           @relation(fields: [venueId], references: [id])
   imageDisplayDurationMs Int?
   playlistDurationMs     Int?
   syncIntervalMinutes    Int?
