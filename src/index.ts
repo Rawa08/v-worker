@@ -15,6 +15,10 @@ app.use(helmet());
 app.use(cors({ origin: process.env.DASHBOARD_URL || '*' }));
 app.use(express.json());
 
+// Health check endpoint for uptime monitoring (e.g., UptimeRobot) - @todo Remove after prod release
+app.get('/healthz', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
 
 // Public Android endpoints
 app.use('/api/device', androidRouter);
