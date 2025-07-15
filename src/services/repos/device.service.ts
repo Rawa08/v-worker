@@ -47,7 +47,8 @@ const getDevicePlayList = async (deviceId: string): Promise<DeviceData | null> =
   return deviceData;
 }
 
-const getAllDevices = () => prisma.device.findMany();
+const getAllDevices = async (): Promise<Device[] | null> => (await prisma.device.findMany());
+
 const getDeviceById = (id: string) => prisma.device.findUnique({ where: { id } });
 const updateDevice = (id: string, data: UpdateDeviceInput) =>
   prisma.device.update({ where: { id }, data });
