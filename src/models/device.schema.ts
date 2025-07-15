@@ -2,6 +2,7 @@ import { z } from "zod";
 import { DeviceStatus } from "@/generated/prisma"
 
 const createDeviceSchema = z.object({
+  name: z.string(),
   androidId: z.string(),
   osVersion: z.string().optional(),
   venueId: z.string().uuid(),
@@ -12,6 +13,7 @@ const createDeviceSchema = z.object({
 });
 
 const updateDeviceSchema = z.object({
+  name: z.string().optional(),
   androidId: z.string().optional(),
   osVersion: z.string().optional(),
   imageDisplayDurationMs: z.number().int().optional(),

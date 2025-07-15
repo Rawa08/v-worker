@@ -61,6 +61,7 @@ enum DeviceStatus {
 model Device {
   id                     String           @id @default(uuid())
   androidId              String?          @unique
+  name                   String?
   osVersion              String?
   venueId                String?
   venue                  Venue?           @relation(fields: [venueId], references: [id])
