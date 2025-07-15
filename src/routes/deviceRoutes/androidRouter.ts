@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { registerDevice, getPlaylistsForDevice } from '@/controllers/deviceControllers';
+import { registerDevice, getPlaylistsForDevice } from '@/controllers/androidDeviceControllers';
 
 const androidRouter = Router();
 
