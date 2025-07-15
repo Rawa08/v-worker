@@ -53,6 +53,7 @@ const getVenueById = async (id: string) => (await prisma.venue.findUnique(
     _count: {
       select: { devices: true }
     },
+    devices: true,
     playlists: {
       select: {
         id: true,
