@@ -17,7 +17,6 @@ const registerDevice = async (req: Request, res: Response) => {
             device = await createNewDevice(androidId);
         }
 
-        logger.info(device);
         return res.status(200).json({ deviceId: device.id });
     }
     catch (err: unknown) {
