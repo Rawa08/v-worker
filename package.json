@@ -11,7 +11,8 @@
     "@/routes": "dist/routes",
     "@/utils": "dist/utils",
     "@/controllers": "dist/controllers",
-    "@/generated": "dist/generated"
+    "@/generated": "dist/generated",
+    "@/types": "dist/types"
   },
   "scripts": {
     "prepare": "husky",
